@@ -155,14 +155,16 @@ def encoutput(key):
     keystringcounter1 = 0
     string2a = ''
     string2b = ''
+    string2c = ''
     #takes and registers keyboard inputs and categorizes keypresses to their corresponding outputs
     def on_key_event(event):
         nonlocal keystringcounter1
         nonlocal string2a
         nonlocal string2b
+        nonlocal string2c
         letter = event.name
         #Outputs the entire table and cipher/plain texts for each key pressed
-        def encscreen(string2a, string2b, letter):
+        def encscreen(string2a, string2b, letter, string2c):
             nonlocal keystringcounter1
             nonlocal keystring
             os.system('cls')
@@ -170,6 +172,8 @@ def encoutput(key):
             enctablecreator(letter, keystring[keystringcounter1-1])
             print("_____________________________________")
             print(f'Plaintext  > {string2a}')
+            print("")
+            print(f'Keystring  > {string2c}')
             print("")
             print(f'Ciphertext > {string2b}')
             print("_____________________________________")
@@ -179,24 +183,29 @@ def encoutput(key):
             keystringcounter1 += 1
             string2a = string2a + letter
             string2b = string2b + cipher
-            encscreen(string2a, string2b, letter)
+            string2c = string2c + keystring[keystringcounter1-1]
+            encscreen(string2a, string2b, letter, string2c)
 
         elif letter == 'space':
             string2a = string2a + ' '
             string2b = string2b + ' '
-            encscreen(string2a, string2b, letter)
+            string2c = string2c + ' '
+            encscreen(string2a, string2b, letter, string2c)
 
-        elif letter == 'backspace' and string2a != '' and string2b != '':
-            if string2a[-1] != ' ' and string2b[-1] != ' ':
+        elif letter == 'backspace' and string2a != '' and string2b != '' and string2c != '':
+            if string2a[-1] != ' ' and string2b[-1] != ' ' and string2c[-1] != ' ':
                 keystringcounter1 -= 1
             string2a = string2a[:-1]
             string2b = string2b[:-1]
-            encscreen(string2a, string2b, letter)
+            string2c = string2c[:-1]
+            encscreen(string2a, string2b, letter, string2c)
 
     os.system('cls')
     print("press 'esc' to confirm")
     print("_____________________________________")
     print(f'Plaintext  > {string2a}')
+    print("")
+    print(f'Keystring  > {string2c}')
     print("")
     print(f'Ciphertext > {string2b}')
     print("_____________________________________")
@@ -214,14 +223,16 @@ def decoutput(key, cipher):
     keystringcounter1 = 0
     string2a = ''
     string2b = ''
+    string2c = ''
     #takes and registers keyboard inputs and categorizes keypresses to their corresponding outputs
     def eachletter(event):
         nonlocal keystringcounter1
         nonlocal string2a
         nonlocal string2b
+        nonlocal string2c
         letter = event
         #Outputs the entire table and cipher/plain texts for each key pressed
-        def encscreen(string2a, string2b, letter, cipher):
+        def encscreen(string2a, string2b, letter, cipher, string2c):
             nonlocal keystringcounter1
             nonlocal keystring
             os.system('cls')
@@ -229,6 +240,8 @@ def decoutput(key, cipher):
             enctablecreator(keystring[keystringcounter1-1], cipher)
             print("_____________________________________")
             print(f'Ciphertext > {string2a}')
+            print("")
+            print(f'Keystring  > {string2c}')
             print("")
             print(f'Plaintext  > {string2b}')
             print("_____________________________________")
@@ -239,19 +252,23 @@ def decoutput(key, cipher):
             keystringcounter1 += 1
             string2a = string2a + letter
             string2b = string2b + cipher
-            encscreen(string2a, string2b, letter, cipher)
+            string2c = string2c + keystring[keystringcounter1-1]
+            encscreen(string2a, string2b, letter, cipher, string2c)
 
         elif letter == ' ':
             string2a = string2a + ' '
             string2b = string2b + ' '
-            encscreen(string2a, string2b, letter, letter)
+            string2c = string2c + ' '
+            encscreen(string2a, string2b, letter, letter, string2c)
 
     os.system('cls')
     print("press 'esc' to confirm")
     print("_____________________________________")
-    print(f'Plaintext  > {string2a}')
+    print(f'Ciphertext > {string2a}')
     print("")
-    print(f'Ciphertext > {string2b}')
+    print(f'Keystring  > {string2c}')
+    print("")
+    print(f'Plaintext  > {string2b}')
     print("_____________________________________")
     for letter in cipher:
         eachletter(letter)
