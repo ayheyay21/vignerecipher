@@ -207,6 +207,8 @@ def encoutput(key):
     input("Press Enter to Exit")
     return -2
 
+#this function manages all decryptions
+#used to automatically decrypt a previously inputted cipher
 def decoutput(key, cipher):
     keystring, x, y, z = generatingkeystring(key, 'x'*2000)
     keystringcounter1 = 0
