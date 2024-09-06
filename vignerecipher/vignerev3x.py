@@ -160,8 +160,9 @@ def tableprinter(rowlist):
 # this function manages all encryptions
 # imports a keystring by inserting the single word key and a plaintext placeholder X which is 2000 character long
 def encoutput(key):
-    if ' ' in key:
-        return -3
+    for item in key.upper():
+        if item not in alphabetlist():
+            return -3
     keystring, x, y, z = generatingkeystring(key, 'x' * 2000)
     keystringcounter1 = 0
     string2a = ''
@@ -233,8 +234,9 @@ def encoutput(key):
 # this function manages all decryptions
 # used to automatically decrypt a previously inputted cipher
 def decoutput(key, cipher):
-    if ' ' in key:
-        return -3
+    for item in key.upper():
+        if item not in alphabetlist():
+            return -3
     keystring, x, y, z = generatingkeystring(key, 'x' * 2000)
     keystringcounter1 = 0
     string2a = ''
@@ -329,7 +331,7 @@ def main():
                         print("_____________________________________")
                     elif response == -3:
                         print("__________________________________________")
-                        print("The key must not contain any spaces")
+                        print("The key must not contain any spaces, numbers, or special characters")
 
                     input("Press ENTER to Continue")
                     os.system('cls')
@@ -347,7 +349,7 @@ def main():
                                 complete = decoutput(keydec, cipher)
                                 if complete == -3:
                                     print("__________________________________________")
-                                    print("The key must not contain any spaces")
+                                    print("The key must not contain any spaces, numbers, or special characters")
                                     print("__________________________________________")
                                 else:
                                     print("\n")
@@ -383,5 +385,4 @@ except Exception as e:
 
 # issues to note
 # 1- limit of 2000 characters for encrypting
-# 3- crashes if the encryption key has a number in it
 # 4- some quality of life improvements remaining
