@@ -1,8 +1,6 @@
 import os
 import keyboard
 import time
-#test 3
-#test 4
 
 # makes the table array
 def tablemaker():
