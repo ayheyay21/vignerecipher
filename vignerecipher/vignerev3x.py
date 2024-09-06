@@ -1,9 +1,9 @@
-
 import os
 import keyboard
 import time
 
-#makes the table array
+
+# makes the table array
 def tablemaker():
     alphabetstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     alphabetstring2 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[::-1]
@@ -37,7 +37,8 @@ def tablemaker():
         rowlist[g].pop()
     return rowlist
 
-#forms an array of all aplhabets in order
+
+# forms an array of all aplhabets in order
 def alphabetlist():
     alphabetarray = []
     alphabetstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -45,13 +46,15 @@ def alphabetlist():
         alphabetarray.append(item)
     return alphabetarray
 
-#returns the positions of the spaces in the original text along with the text w/o spaces
+
+# returns the positions of the spaces in the original text along with the text w/o spaces
 def remove_spaces(input_string):
     space_positions = [i for i, char in enumerate(input_string) if char == ' ']
     modified_string = input_string.replace(' ', '')
     return modified_string, space_positions
 
-#this takes the original string without spaces and the space position, returning the text with spaces
+
+# this takes the original string without spaces and the space position, returning the text with spaces
 def add_spaces(input_string, space_positions):
     original_string_list = list(input_string)
     for pos in space_positions:
@@ -59,9 +62,10 @@ def add_spaces(input_string, space_positions):
     original_string = ''.join(original_string_list)
     return original_string
 
-#takes a key and plaintext to return the keystring(key repeated to fit plaintext length)
-#removes spaces from the plaintext by sending it to the remove spaces function
-#returns the keystring along with some other stuff
+
+# takes a key and plaintext to return the keystring(key repeated to fit plaintext length)
+# removes spaces from the plaintext by sending it to the remove spaces function
+# returns the keystring along with some other stuff
 def generatingkeystring(key, plaintext):
     plaintext = plaintext.upper()
     key = key.upper()
@@ -73,12 +77,13 @@ def generatingkeystring(key, plaintext):
     extended_string = key * repetitions
     extended_string = extended_string[:len(plaintext)]
     keystring = extended_string
-    return keystring , string_without_spaces, space_positions, plaintext
+    return keystring, string_without_spaces, space_positions, plaintext
 
-#imports the table array from the tablemaker function
-#imports keystring and other neccesary data from the generatingkeystring array by using the key letter and single plaintext element
-#uses the rowlist vignere table contained in 'rowlist' to encrypt the letter
-#returns the encrypted letter
+
+# imports the table array from the tablemaker function
+# imports keystring and other neccesary data from the generatingkeystring array by using the key letter and single plaintext element
+# uses the rowlist vignere table contained in 'rowlist' to encrypt the letter
+# returns the encrypted letter
 def encrypting(key, plaintext1):
     rowlist = tablemaker()
     keystring, string_without_spaces, space_positions, plaintext = generatingkeystring(key, plaintext1)
@@ -95,8 +100,9 @@ def encrypting(key, plaintext1):
     ciphertext = original_string_back
     return ciphertext
 
-#uses the table array from tablemaker to decrypt simply
-#uses the add_spaces function to return the original text including the spaces
+
+# uses the table array from tablemaker to decrypt simply
+# uses the add_spaces function to return the original text including the spaces
 def decrypting(key, ciphertext1):
     rowlist = tablemaker()
     keystring, string_without_spaces, space_positions, ciphertext = generatingkeystring(key, ciphertext1)
@@ -113,8 +119,9 @@ def decrypting(key, ciphertext1):
     plaintext = original_string_back
     return plaintext
 
-#for each text letter and key letter, it forms a table with dots along the key column and row
-#prints said table using the tableprinter function for each iteration
+
+# for each text letter and key letter, it forms a table with dots along the key column and row
+# prints said table using the tableprinter function for each iteration
 def enctablecreator(letter, key):
     letter = letter.upper()
     rowlist = tablemaker()
@@ -132,44 +139,51 @@ def enctablecreator(letter, key):
                 break
         for y in range(0, len(rowlist[rowindex])):
             if rowlist[rowindex][y] != rowlist[rowindex][columnindex]:
-                rowlist[rowindex][y] = '·'#■
+                rowlist[rowindex][y] = '·'  # ■
         for x in range(0, len(rowlist)):
             if rowlist[x][columnindex] != rowlist[rowindex][columnindex]:
-                rowlist[x][columnindex] = '·'#■
+                rowlist[x][columnindex] = '·'  # ■
     tableprinter(rowlist)
 
-#adds spaces and prints the table contained in the rowlist array
+
+# adds spaces and prints the table contained in the rowlist array
 def tableprinter(rowlist):
     print("_____________________________________")
     for row in rowlist:
         string2n = ''
         for element in row:
-            string2n = string2n+' '+element
+            string2n = string2n + ' ' + element
         print(string2n)
     print("_____________________________________")
 
-#this function manages all encryptions
-#imports a keystring by inserting the single word key and a plaintext placeholder X which is 2000 character long
+
+# this function manages all encryptions
+# imports a keystring by inserting the single word key and a plaintext placeholder X which is 2000 character long
 def encoutput(key):
-    keystring, x, y, z = generatingkeystring(key, 'x'*2000)
+    for item in key.upper():
+        if item not in alphabetlist():
+            return -3
+    keystring, x, y, z = generatingkeystring(key, 'x' * 2000)
     keystringcounter1 = 0
     string2a = ''
     string2b = ''
     string2c = ''
-    #takes and registers keyboard inputs and categorizes keypresses to their corresponding outputs
+
+    # takes and registers keyboard inputs and categorizes keypresses to their corresponding outputs
     def on_key_event(event):
         nonlocal keystringcounter1
         nonlocal string2a
         nonlocal string2b
         nonlocal string2c
         letter = event.name
-        #Outputs the entire table and cipher/plain texts for each key pressed
+
+        # Outputs the entire table and cipher/plain texts for each key pressed
         def encscreen(string2a, string2b, letter, string2c):
             nonlocal keystringcounter1
             nonlocal keystring
             os.system('cls')
             print("press 'esc' to confirm")
-            enctablecreator(letter, keystring[keystringcounter1-1])
+            enctablecreator(letter, keystring[keystringcounter1 - 1])
             print("_____________________________________")
             print(f'Plaintext  > {string2a}')
             print("")
@@ -183,7 +197,7 @@ def encoutput(key):
             keystringcounter1 += 1
             string2a = string2a + letter
             string2b = string2b + cipher
-            string2c = string2c + keystring[keystringcounter1-1]
+            string2c = string2c + keystring[keystringcounter1 - 1]
             encscreen(string2a, string2b, letter, string2c)
 
         elif letter == 'space':
@@ -216,28 +230,34 @@ def encoutput(key):
     input("Press Enter to Exit")
     return -2
 
-#this function manages all decryptions
-#used to automatically decrypt a previously inputted cipher
+
+# this function manages all decryptions
+# used to automatically decrypt a previously inputted cipher
 def decoutput(key, cipher):
-    keystring, x, y, z = generatingkeystring(key, 'x'*2000)
+    for item in key.upper():
+        if item not in alphabetlist():
+            return -3
+    keystring, x, y, z = generatingkeystring(key, 'x' * 2000)
     keystringcounter1 = 0
     string2a = ''
     string2b = ''
     string2c = ''
-    #takes and registers keyboard inputs and categorizes keypresses to their corresponding outputs
+
+    # takes and registers keyboard inputs and categorizes keypresses to their corresponding outputs
     def eachletter(event):
         nonlocal keystringcounter1
         nonlocal string2a
         nonlocal string2b
         nonlocal string2c
         letter = event
-        #Outputs the entire table and cipher/plain texts for each key pressed
+
+        # Outputs the entire table and cipher/plain texts for each key pressed
         def encscreen(string2a, string2b, letter, cipher, string2c):
             nonlocal keystringcounter1
             nonlocal keystring
             os.system('cls')
             print("press 'esc' to confirm")
-            enctablecreator(keystring[keystringcounter1-1], cipher)
+            enctablecreator(keystring[keystringcounter1 - 1], cipher)
             print("_____________________________________")
             print(f'Ciphertext > {string2a}')
             print("")
@@ -252,7 +272,7 @@ def decoutput(key, cipher):
             keystringcounter1 += 1
             string2a = string2a + letter
             string2b = string2b + cipher
-            string2c = string2c + keystring[keystringcounter1-1]
+            string2c = string2c + keystring[keystringcounter1 - 1]
             encscreen(string2a, string2b, letter, cipher, string2c)
 
         elif letter == ' ':
@@ -272,11 +292,9 @@ def decoutput(key, cipher):
     print("_____________________________________")
     for letter in cipher:
         eachletter(letter)
-    
+
     input("Press Enter to Exit")
     return -2
-
-
 
 def main():
     os.system('cls')
@@ -306,13 +324,18 @@ def main():
                     keyenc = input("Enter the key to be used for encryption: ")
                     print("_____________________________________")
                     response = encoutput(keyenc)
-                    os.system('cls')
                     print("\n")
                     if response == -2:
                         print("_____________________________________")
                         print(f"Encrypted using the key [{keyenc}]")
                         print("_____________________________________")
-                    input("Press Enter to Continue")
+                    elif response == -3:
+                        print("__________________________________________")
+                        print("The key must not contain any spaces, numbers, or special characters")
+
+                    input("Press ENTER to Continue")
+                    os.system('cls')
+
                 elif encchoice == 2:
                     while True:
                         try:
@@ -324,11 +347,18 @@ def main():
                             else:
                                 os.system('cls')
                                 complete = decoutput(keydec, cipher)
-                                print("\n")
-                                print("_____________________________________")
-                                print(f"Decrypted using the key [{keydec}]")
-                                print("_____________________________________")
+                                if complete == -3:
+                                    print("__________________________________________")
+                                    print("The key must not contain any spaces, numbers, or special characters")
+                                    print("__________________________________________")
+                                else:
+                                    print("\n")
+                                    print("_____________________________________")
+                                    print(f"Decrypted using the key [{keydec}]")
+                                    print("_____________________________________")
+
                                 input("Press Enter to Continue")
+                                os.system('cls')
                                 break
 
                         except:
@@ -339,9 +369,11 @@ def main():
                     print("INVALID INPUT")
                     input("Press Enter to Retry")
                 os.system('cls')
+
         else:
             os.system('cls')
             print("Incorrect Password, try again or contact ayaan for password details.")
+
 
 try:
     main()
@@ -351,7 +383,6 @@ except Exception as e:
     print(e)
     print("Press Enter To Exit")
 
-#issues to note
-#1- limit of 2000 characters for encrypting
-#2- crashes if the encryption key has a space in it
-#3- unable to copy and paste into the encryption bar
+# issues to note
+# 1- limit of 2000 characters for encrypting
+# 4- some quality of life improvements remaining
