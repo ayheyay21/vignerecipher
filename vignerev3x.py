@@ -264,7 +264,7 @@ def decoutput(key, cipher):
             print("")
             print(f'Plaintext  > {string2b}')
             print("_____________________________________")
-            time.sleep(0.25)
+            time.sleep(0.10)
 
         if letter.upper() in alphabetlist():
             cipher = decrypting(keystring[keystringcounter1], letter)
