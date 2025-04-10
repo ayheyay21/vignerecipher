@@ -194,11 +194,11 @@ def encoutput(key):
     string2b = ''
     string2c = ''
 
-    clear_screen()
+    print("\033[H", end="")
     print("press 'esc' to confirm")
 
     def encscreen():
-        clear_screen()
+        print("\033[H", end="")
         print("press 'esc' to confirm")
         if string2a:
             enctablecreator(string2a[-1], keystring[keystringcounter1 - 1])
@@ -272,7 +272,7 @@ def decoutput(key, cipher):
         def encscreen(string2a, string2b, letter, cipher, string2c):
             nonlocal keystringcounter1
             nonlocal keystring
-            clear_screen()
+            print("\033[H", end="")
             print("press 'esc' to confirm")
             enctablecreator(keystring[keystringcounter1 - 1], cipher)
             print("_____________________________________")
@@ -298,7 +298,7 @@ def decoutput(key, cipher):
             string2c = string2c + ' '
             encscreen(string2a, string2b, letter, letter, string2c)
 
-    clear_screen()
+    print("\033[H", end="")
     print("press 'esc' to confirm")
     print("_____________________________________")
     print(f'Ciphertext > {string2a}')
